@@ -10,9 +10,8 @@ def clean_phone_number(phone_number)
   phone_number = phone_number.to_s.gsub(/\D/, '').sub(/^1/, '')
   if phone_number.length < 10
     puts "Phone number not active: #{phone_number}"
-  else
-    puts phone_number
   end
+  phone_number
 end
 
 def legislators_by_zipcode(zip)
@@ -56,9 +55,16 @@ contents.each do |row|
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
   phone_number = clean_phone_number(row[:homephone])
+
+  # Print the phone number after cleaning
+  puts "Cleaned phone number: #{phone_number}"
+
   legislators = legislators_by_zipcode(zipcode)
 
   form_letter = erb_template.result(binding)
+
+  # Print the form letter before saving
+  puts "Form letter: #{form_letter}"
 
   save_thank_you_letter(id, form_letter)
 end
