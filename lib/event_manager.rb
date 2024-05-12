@@ -51,4 +51,7 @@ contents.each do |row|
   form_letter = erb_template.result(binding)
 
   save_thank_you_letter(id, form_letter)
+
+  phone_number = row[:homephone]
+  puts phone_number
 end
