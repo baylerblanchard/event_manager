@@ -1,6 +1,7 @@
 require 'csv'
 require 'google/apis/civicinfo_v2'
 require 'erb'
+require 'date'
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5, '0')[0..4]
@@ -55,6 +56,9 @@ contents.each do |row|
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
   phone_number = clean_phone_number(row[:homephone])
+  time_data = row[:regdate]
+
+  puts time_data
 
   # Print the phone number after cleaning
   puts "Cleaned phone number: #{phone_number}"
@@ -64,9 +68,8 @@ contents.each do |row|
   form_letter = erb_template.result(binding)
 
   # Print the form letter before saving
-  puts "Form letter: #{form_letter}"
 
   save_thank_you_letter(id, form_letter)
 end
 
-#work on the date and time later
+# work on the date and time later
