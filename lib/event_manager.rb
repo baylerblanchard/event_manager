@@ -68,3 +68,5 @@ contents.each do |row|
 
   save_thank_you_letter(id, form_letter)
 end
+
+#work on the date and time later
