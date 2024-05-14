@@ -7,6 +7,22 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5, '0')[0..4]
 end
 
+def find_peak_times(times)
+  reg_per_hour = {}
+
+  times.each do |timestamp|
+    hour = DateTime.strptime(timestamp, '%m/%d/%y %H:%M').hour
+    reg_per_hour[hour] ||= 0
+    reg_per_hour[hour] += 1
+  end
+
+  max_reg = reg_per_hour.values.max
+
+  peak_hours = reg_per_hour.select { |_hour, count| count == max_reg}.keys
+
+  [max_reg, peak_hours]
+end
+
 def clean_phone_number(phone_number)
   phone_number = phone_number.to_s.gsub(/\D/, '').sub(/^1/, '')
   if phone_number.length < 10
@@ -51,7 +67,7 @@ contents = CSV.open(
 template_letter = File.read('form_letter.erb')
 erb_template = ERB.new template_letter
 
-regdate_array = Array.new
+regdate_array = []
 
 contents.each do |row|
   id = row[0]
@@ -60,9 +76,6 @@ contents.each do |row|
   phone_number = clean_phone_number(row[:homephone])
   regdate = row[:regdate]
   regdate_array << regdate
-
-  # Print the phone number after cleaning
-  puts "Cleaned phone number: #{phone_number}"
 
   legislators = legislators_by_zipcode(zipcode)
 
@@ -73,5 +86,9 @@ contents.each do |row|
   save_thank_you_letter(id, form_letter)
 end
 
-puts regdate_array
+reg_times, peak_time = find_peak_times(regdate_array)
+
+
+puts "The most registrations in an hour: #{reg_times}"
+puts "The most registrations occurred at hour(s): #{peak_time.join(', ')}"
 # work on the date and time later
