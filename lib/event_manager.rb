@@ -51,14 +51,15 @@ contents = CSV.open(
 template_letter = File.read('form_letter.erb')
 erb_template = ERB.new template_letter
 
+regdate_array = Array.new
+
 contents.each do |row|
   id = row[0]
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
   phone_number = clean_phone_number(row[:homephone])
-  time_data = row[:regdate]
-
-  puts time_data
+  regdate = row[:regdate]
+  regdate_array << regdate
 
   # Print the phone number after cleaning
   puts "Cleaned phone number: #{phone_number}"
@@ -72,4 +73,5 @@ contents.each do |row|
   save_thank_you_letter(id, form_letter)
 end
 
+puts regdate_array
 # work on the date and time later
