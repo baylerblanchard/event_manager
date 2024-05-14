@@ -14,6 +14,8 @@ def find_peak_times(times)
     hour = DateTime.strptime(timestamp, '%m/%d/%y %H:%M').hour
     reg_per_hour[hour] ||= 0
     reg_per_hour[hour] += 1
+    timestamp = DateTime.strptime(timestamp, '%m/%d/%y %H:%M')
+    puts timestamp.wday
   end
 
   max_reg = reg_per_hour.values.max
