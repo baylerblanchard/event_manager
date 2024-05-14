@@ -8,8 +8,7 @@ def clean_zipcode(zipcode)
 end
 
 def find_best_day(days)
-  grouped_days = days.group_by { |day| DateTime.strptime(day, '%m/%d/%y %H:%M').wday }
-  best_day = grouped_days.max_by { |_day, registrations| registrations.length }.first
+  puts days
 end
 
 def find_peak_times(times)
@@ -24,7 +23,7 @@ def find_peak_times(times)
     reg_days << timestamp.wday
   end
 
-  puts reg_days
+  find_best_day(reg_days)
   max_reg = reg_per_hour.values.max
 
   peak_hours = reg_per_hour.select { |_hour, count| count == max_reg}.keys
