@@ -15,7 +15,7 @@ def clean_best_day(day)
   elsif day == 2
     day = 'Tuesday'
   elsif day == 3
-    puts day = 'Wednesday'
+    day = 'Wednesday'
   elsif day == 4
     day = 'Thursday'
   elsif day == 5
@@ -50,7 +50,7 @@ def find_peak_times(times)
   end
 
   best_day = find_best_day(reg_days)
-  best_day = clean_best_day(best_day)
+  best_day = clean_best_day(best_day[0])
 
   puts "the best day to run the ads is on #{best_day}"
 
