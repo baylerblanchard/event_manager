@@ -7,8 +7,34 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5, '0')[0..4]
 end
 
+def clean_best_day(day)
+  if day == 0
+    day = 'Sunday'
+  elsif day == 1
+    day = 'Monday'
+  elsif day == 2
+    day = 'Tuesday'
+  elsif day == 3
+    puts day = 'Wednesday'
+  elsif day == 4
+    day = 'Thursday'
+  elsif day == 5
+    day = 'Friday'
+  elsif day == 6
+    day = 'Saturday'
+  end
+  day
+end
+
 def find_best_day(days)
-  puts days
+  reg_per_day = {}
+  days.each do |day|
+    reg_per_day[day] ||= 0
+    reg_per_day[day] += 1
+  end
+  max_reg = reg_per_day.values.max
+  best_days = reg_per_day.select { |_day, count| count == max_reg }.keys
+  best_days
 end
 
 def find_peak_times(times)
@@ -23,7 +49,11 @@ def find_peak_times(times)
     reg_days << timestamp.wday
   end
 
-  find_best_day(reg_days)
+  best_day = find_best_day(reg_days)
+  best_day = clean_best_day(best_day)
+
+  puts "the best day to run the ads is on #{best_day}"
+
   max_reg = reg_per_hour.values.max
 
   peak_hours = reg_per_hour.select { |_hour, count| count == max_reg}.keys
